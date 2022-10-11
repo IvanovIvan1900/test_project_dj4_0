@@ -1,0 +1,14 @@
+.venv/
+**__pycache__/
+secret_data.py
+poetry.lock
+launch.json
+bboard.data
+**thumbnails/**
+*.log
+**migrations**
+.env
+**.sqlite3
+**.log*
+my_timer_project/my_timer/.env.prod
+**/media/**

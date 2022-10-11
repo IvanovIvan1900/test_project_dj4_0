@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "djangotest_v4"
+version = "0.1.0"
+description = ""
+authors = ["Alex <ivanovivan159753@yandex.ru>"]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Django = "~4.0.0"
+django-bootstrap4 = "^22.2"
+django-tables2 = "^2.4.1"
+
+[tool.poetry.dev-dependencies]
+black = "^22.10.0"
+flake8 = "^5.0.4"
+flake8-django = "^1.1.5"
+djlint = "^1.18.0"
+pytest = "^7.1.3"
+pytest-django = "^4.5.2"
+django-debugtools = "^2.0"
+django-debug-toolbar = "^3.7.0"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
