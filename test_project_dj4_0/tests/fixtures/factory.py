@@ -3,6 +3,7 @@ from mimesis_factory import MimesisField
 from my_app.models import Client
 from pytest_factoryboy import register
 
+
 @register
 class ClientFactory(factory.django.DjangoModelFactory):
     class Meta:

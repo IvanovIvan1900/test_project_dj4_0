@@ -9,12 +9,86 @@ def test_resolve_url_client_list():
     assert isinstance(url, str)
 
 
-@pytest.mark.django_db
-def test_factory(client_factory:Client):
-    first_cleint = client_factory()
-    two_client = client_factory()
-    a = 4
+# Создадим фикстуру для выполнения автоматическохо входа в систему (auto login):
+@pytest.fixture
+def auto_login_user(db, client, create_user, test_password):
+    def make_auto_login(user=None):
+        if user is None:
+            user = create_user()
+        client.login(username=user.username, password=test_password)
+        return client, user
+    return make_auto_login
 
+
+# Для тестирования исходящей почты pytest-django имеет встроенную фикстуру mailoutbox:
+@pytest.mark.django_db
+def test_send_report(auto_login_user, mailoutbox):
+    client, user = auto_login_user()
+    url = reverse('send-report-url')
+    response = client.post(url)
+    assert response.status_code == 201
+    assert len(mailoutbox) == 1
+    mail = mailoutbox[0]
+    assert mail.subject == f'Report to {user.email}'
+    assert list(mail.to) == [user.email]
+
+
+class TestView():
+# https://lexover.ru/2021/03/07/test-django-using-pytest/
+# Для обращения к представлению Django используется встроенная pytest-django фикстура client, для доступа
+# с правами суперпользователя используется фикстура admin_client:
+    @pytest.mark.django_db
+    def test_view_unauthorized(self, client):
+        url = reverse('home')
+        response = client.get(url)
+        assert response.status_code == 401
+
+    @pytest.mark.django_db
+    def test_view_as_admin(self, admin_client):
+        url = reverse('home')
+        response = admin_client.get(url)
+        assert response.status_code == 200
+
+
+class TestAPI():
+    @pytest.fixture
+    def api_client(self):
+        from rest_framework.test import APIClient
+        return APIClient()
+
+    @pytest.mark.django_db
+    def test_unauthorized_request(self, api_client):
+        url = reverse('need-token-url')
+        response = api_client.get(url)
+        assert response.status_code == 401
+
+    @pytest.fixture
+    def get_or_create_token(db, create_user):
+        from rest_framework.authtoken.models import Token
+        user = create_user()
+        token, _ = Token.objects.get_or_create(user=user)
+        return token
+
+    @pytest.mark.django_db
+    def test_unauthorized_request(self, api_client, get_or_create_token):
+        url = reverse('need-token-url')
+        token = get_or_create_token()
+        api_client.credentials(HTTP_AUTHORIZATION=f'Token {token.key}')
+        response = api_client.get(url)
+        assert response.status_code == 200
+
+    @pytest.fixture
+    def api_client_with_credentials(self, db, create_user, api_client):
+        user = create_user()
+        api_client.force_authenticate(user=user)
+        yield api_client
+        api_client.force_authenticate(user=None)
+
+    @pytest.mark.django_db
+    def test_unauthorized_request(self, api_client, get_or_create_token):
+        url = reverse('need-token-url')
+        response = self.api_client_with_credentials.get(url)
+        assert response.status_code == 200
 # @pytest.mark.django_db
 # def test_auth_view(auto_login_user):
 #    client, user = auto_login_user()
