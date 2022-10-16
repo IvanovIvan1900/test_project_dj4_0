@@ -1,12 +1,13 @@
-{% extends "my_app_main/layout/basic.html" %} {% load render_table from django_tables2 %} {% block title %}Клиенты{% endblock %} {% load static %} {% block imports %}
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" /> {% endblock %} {% block menu_block %}{% endblock %} {% block content %}
-<h1>Clients</h1>
-{% render_table table %}
-<!-- <ul>
-    {% for client in object_list %}
-    <li>{{ client.name }}</li>
-    {% empty %}
-    <li>No client yet.</li>
-    {% endfor %}
-</ul> -->
-{% endblock %}
+{% extends "my_app_main/layout/basic.html" %}
+{% load static %}
+{% load render_table from django_tables2 %}
+{% block title %}Клиенты{% endblock %}
+{% block imports %}
+    <link rel="stylesheet" href="{% static 'css/my_style.css' %}">
+{% endblock imports %}
+{% block menu_block %}
+{% endblock menu_block %}
+{% block content %}
+    <h1>Clients</h1>
+    {% render_table table %}
+{% endblock content %}

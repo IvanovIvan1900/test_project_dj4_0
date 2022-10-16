@@ -1,3 +1,10 @@
+# import django
+# from django.conf import settings
+from .fixtures import *
+
+
+
+
 # import datetime
 # from typing import Optional
 # import uuid
@@ -5,12 +12,6 @@
 # import pytest
 # from django.contrib.auth.models import User
 # import pytz
-# import django
-# from django.conf import settings
-# SETTINGS = dict((key,val) for key, val in locals().items() if key.isupper())
-# if not settings.configured:
-#     settings.configure(**SETTINGS)
-# django.setup()
 
 # from main.models import Clients, Tasks, TimeTrack
 

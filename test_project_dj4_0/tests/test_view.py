@@ -1,13 +1,6 @@
-# import collections
-# from datetime import datetime, time
-# from operator import itemgetter
-
 import pytest
-# import pytz
-# from django.contrib.auth.models import User
 from django.urls import reverse
-# from main.models import Clients, TimeTrack
-# from main.pref import Pref
+from my_app.models import Client
 
 
 @pytest.mark.django_db
@@ -15,6 +8,12 @@ def test_resolve_url_client_list():
     url = reverse('my_app:client_list')
     assert isinstance(url, str)
 
+
+@pytest.mark.django_db
+def test_factory(client_factory:Client):
+    first_cleint = client_factory()
+    two_client = client_factory()
+    a = 4
 
 # @pytest.mark.django_db
 # def test_auth_view(auto_login_user):

@@ -14,4 +14,13 @@
     "python.testing.pytestArgs": [
         "test_project_dj4_0"
     ],
+    "sqltools.useNodeRuntime": true,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "DJ 40 Demo",
+            "database": "${workspaceFolder:DjangoTest_v4}/test_project_dj4_0/db.sqlite3"
+        }
+    ],
 }

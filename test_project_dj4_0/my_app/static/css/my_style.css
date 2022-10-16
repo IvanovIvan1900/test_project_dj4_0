@@ -1,0 +1,20 @@
+/* ordering in table */
+
+
+/* table.table thead th.orderable {
+    background: url(path_to_unsorted_indicator_image)
+} */
+
+table.table thead th.asc.orderable {
+    background-image: url(../ico/ico_sort_down.ico);
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-position: right 10px top;
+}
+
+table.table thead th.desc.orderable {
+    background: url(../ico/ico_sort_up.ico);
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-position: right 10px top;
+}
